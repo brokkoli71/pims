@@ -32,7 +32,7 @@ jobs:
         set -vxeuo pipefail
         python -m pip install -v .
         if [[ ${{ matrix.optional-deps }} = extras ]]; then
-          python -mpip install av jinja2 jpype1 matplotlib moviepy scikit-image tifffile
+          python -mpip install av jinja2 jpype1 matplotlib moviepy imageio tifffile
         fi
         python -m pip install coverage pytest
         python -m pip list

@@ -10,6 +10,7 @@ PIMS is easy to install on Windows, OSX, or Linux. Its dependencies are:
 
 For basic image reading one of the following is required:
 
+* `imageio <https://imageio.github.io/>`_
 * `scikit-image <http://scikit-image.org/>`_
 * `matplotlib <http://matplotlib.org/>`_
 
