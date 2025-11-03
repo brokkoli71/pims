@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Install Python dependencies
-        run: pip install ipython numpydoc pytest scikit-image sphinx sphinx-copybutton sphinx-rtd-theme
+        run: pip install ipython numpydoc pytest imageio sphinx sphinx-copybutton sphinx-rtd-theme
 
       - name: Install pims
         run: python -m pip install -v .

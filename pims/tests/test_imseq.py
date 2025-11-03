@@ -28,9 +28,8 @@ class TestImageSequenceWithPIL(_image_series, unittest.TestCase):
         self.filename = os.path.join(self.filepath, '*.png')
         self.frame0 = frames[0]
         self.frame1 = frames[1]
-        self.kwargs = dict(plugin='pil')
         self.klass = pims.ImageSequence
-        self.v = self.klass(self.filename, **self.kwargs)
+        self.v = self.klass(self.filename)
         self.expected_shape = shape
         self.expected_len = 5
         self.tempdir = tempfile.mkdtemp()
@@ -52,6 +51,10 @@ class TestImageSequenceWithPIL(_image_series, unittest.TestCase):
         os.remove(self.tempfile)
         os.rmdir(self.tempdir)
 
+    def test_plugin_deprecation(self):
+        with self.assertWarns(DeprecationWarning):
+            pims.ImageSequence(self.filename, plugin='PIL')
+
 
 class TestImageSequenceWithMPL(_image_series, unittest.TestCase):
     def setUp(self):
@@ -65,9 +68,8 @@ class TestImageSequenceWithMPL(_image_series, unittest.TestCase):
         self.filename = os.path.join(self.filepath, '*.png')
         self.frame0 = frames[0]
         self.frame1 = frames[1]
-        self.kwargs = dict(plugin='matplotlib')
         self.klass = pims.ImageSequence
-        self.v = self.klass(self.filename, **self.kwargs)
+        self.v = self.klass(self.filename)
         self.expected_shape = shape
         self.expected_len = 5
 
@@ -89,9 +91,8 @@ class TestImageSequenceAcceptsList(_image_series, unittest.TestCase):
                          for fn in self.filenames]
         self.frame0 = frames[0]
         self.frame1 = frames[1]
-        self.kwargs = dict(plugin='matplotlib')
         self.klass = pims.ImageSequence
-        self.v = self.klass(self.filename, **self.kwargs)
+        self.v = self.klass(self.filename)
         self.expected_shape = shape
         self.expected_len = len(self.filenames)
 
@@ -112,9 +113,8 @@ class TestImageSequenceNaturalSorting(_image_series, unittest.TestCase):
         self.filename = os.path.join(self.filepath, 'T76*.png')
         self.frame0 = frames[0]
         self.frame1 = frames[2]
-        self.kwargs = dict(plugin='matplotlib')
         self.klass = pims.ImageSequence
-        self.v = self.klass(self.filename, **self.kwargs)
+        self.v = self.klass(self.filename)
         self.expected_shape = shape
         self.expected_len = len(self.filenames)
 

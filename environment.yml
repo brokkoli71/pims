@@ -7,7 +7,6 @@ dependencies:
 - slicerator
 - pillow
 - matplotlib
-- scikit-image
 - jinja2
 - av
 - tifffile
