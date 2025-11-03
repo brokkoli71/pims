@@ -27,7 +27,7 @@ class ImageSequence(FramesSequence):
         which will ignore extraneous files or a list of files to open
         in the order they should be loaded. When a path to a zipfile is
         specified, all files in the zipfile will be loaded.
-    plugin : string
+    plugin : string, optional, deprecated
         Passed on to skimage.io.imread if scikit-image is available.
         If scikit-image is not available, this will be ignored and a warning
         will be issued. Not available in combination with zipfiles.
@@ -51,15 +51,15 @@ class ImageSequence(FramesSequence):
     >>> frame_count = len(video) # Number of frames in video
     >>> frame_shape = video.frame_shape # Pixel dimensions of video
     """
-    def __init__(self, path_spec, plugin=None):
-        if not imread.__module__.startswith("skimage"):
-            if plugin is not None:
-                warn("A plugin was specified but ignored. Plugins can only "
-                     "be specified if scikit-image is available. Instead, "
-                     "ImageSequence will use imageio")
-            self.kwargs = dict()
-        else:
-            self.kwargs = dict(plugin=plugin)
+    def __init__(self, path_spec, **kwargs):
+        self.kwargs = kwargs
+        if 'plugin' in self.kwargs:
+            warn_msg = "The 'plugin' parameter is deprecated and will be removed in a future release."
+            if imread.__module__.startswith("skimage"):
+                warn(warn_msg, DeprecationWarning)
+            else:
+                warn(warn_msg + " 'plugin' will be ignored because imageio is used for image reading.", DeprecationWarning)
+                self.kwargs.pop('plugin')
 
         self._is_zipfile = False
         self._zipfile = None
@@ -333,7 +333,7 @@ class ImageSequenceND(FramesSequenceND, ImageSequence):
         specified, all files in the zipfile will be loaded. The filenames
         should contain the indices of T, Z and C, preceded by a axis
         identifier such as: 'file_t001c05z32'.
-    plugin : string, optional
+    plugin : string, optional, deprecated
         Passed on to skimage.io.imread if scikit-image is available.
         If scikit-image is not available, this will be ignored and a warning
         will be issued. Not available in combination with zipfiles.

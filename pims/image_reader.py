@@ -4,8 +4,6 @@ from pims.base_frames import FramesSequence, FramesSequenceND
 from pims.frame import Frame
 
 try:
-    from skimage.io import imread
-except ImportError:
     try:
         from imageio import v2 as iio
     except ImportError:
@@ -13,7 +11,9 @@ except ImportError:
 
     def imread(*args, **kwargs):  # Strip metadata for consistency.
         return np.asarray(iio.imread(*args, **kwargs))
-
+except ImportError:
+    from skimage.io import imread
+    iio = None
 
 class ImageReader(FramesSequence):
     """Reads a single image into a length-1 reader.
