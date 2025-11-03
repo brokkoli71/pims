@@ -13,7 +13,6 @@ try:
         return np.asarray(iio.imread(*args, **kwargs))
 except ImportError:
     from skimage.io import imread
-    iio = None
 
 class ImageReader(FramesSequence):
     """Reads a single image into a length-1 reader.
